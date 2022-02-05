@@ -8,5 +8,5 @@ public class MFooter
 
     public bool hasNext { get; set; }
 
-    public int TotalRecords { get; set; }
+    public long TotalRecords { get; set; }
 }

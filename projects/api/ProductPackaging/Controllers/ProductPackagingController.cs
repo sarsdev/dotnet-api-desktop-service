@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ProductPackaging.Models;
+using ProductPackaging.Services;
 
 namespace ProductPackaging.Controllers;
 
@@ -7,78 +8,24 @@ namespace ProductPackaging.Controllers;
 [Route("[controller]")]
 public class ProductPackagingController : ControllerBase {
 
-    public ProductPackagingController() { }
+    private readonly ProductPackagingService _productPackagingService;
+
+    public ProductPackagingController(ProductPackagingService productPackagingService) {
+        _productPackagingService = productPackagingService;
+    }
 
     [HttpGet("product/packaging")]
-    public MResponseData GetAllProductPackaging() {
-        var productList = new List<MProductPackaging>() {
-            new MProductPackaging() {
-                Code = 100,
-                Description = "Product One",
-                Unit = "UN"
-            },
-            new MProductPackaging() {
-                Code = 101,
-                Description = "Product Two",
-                Unit = "PCK"
-            }
-        };
-        var footerList = new MFooter() {
-            Page = 0,
-            Skip = 0,
-            hasNext = false,
-            TotalRecords = 2
-        };
-        return new MResponseData() {
-            Status = "SUCESS",
-            Payload = productList,
-            Footer = footerList
-        };
-    }
+    public ActionResult<MResponseData> GetAllProductPackaging([FromQuery] int? qtdpage, int? skip) => _productPackagingService.Get(skip, qtdpage);
 
     [HttpGet("product/packaging/{code}")]
-    public MResponseData GetOneProductPackaging() {
-        var productList = new List<MProductPackaging>() {
-            new MProductPackaging() {
-                Code = 100,
-                Description = "Product One",
-                Unit = "UN"
-            }
-        };
-        var footerList = new MFooter() {
-            Page = 0,
-            Skip = 0,
-            hasNext = false,
-            TotalRecords = 2
-        };
-        return new MResponseData() {
-            Status = "SUCESS",
-            Payload = productList,
-            Footer = footerList
-        };
-    }
+    public MResponseData GetOneProductPackaging(int code) => _productPackagingService.Get(code);
 
     [HttpPost("product/packaging")]
-    public MResponseExecution PostProductPackaging() {
-        return new MResponseExecution(){
-            Status = "SUCESS",
-            Message = "Product packaging created"
-        };
-    }
+    public MResponseExecution PostProductPackaging([FromBody] MProductPackaging productPackaging) => _productPackagingService.Create(productPackaging);
 
     [HttpPut("product/packaging")]
-    public MResponseExecution PutProductPackaging() {
-        return new MResponseExecution(){
-            Status = "SUCESS",
-            Message = "Product packaging updated"
-        };
-    }
+    public MResponseExecution PutProductPackaging([FromBody] MProductPackaging productPackaging) => _productPackagingService.Update(productPackaging);
 
-    [HttpDelete("product/packaging")]
-    public MResponseExecution DeleteProductPackaging() {
-        return new MResponseExecution(){
-            Status = "SUCESS",
-            Message = "Product packaging deleted"
-        };
-    }
+    [HttpDelete("product/packaging/{code}")]
+    public MResponseExecution DeleteProductPackaging(int code) => _productPackagingService.Remove(code);
 }

@@ -2,13 +2,7 @@ namespace ProductPackaging.Models;
 
 public class MResponseExecution
 {
-    public string Status { get; set; }
+    public string Status { get; set; } = string.Empty;
 
-    public string Message { get; set; }
-
-    public MResponseExecution()
-    {
-        Status = "";
-        Message = "";
-    }
+    public string Message { get; set; } = string.Empty;
 }
