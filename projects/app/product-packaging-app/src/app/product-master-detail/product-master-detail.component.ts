@@ -35,11 +35,9 @@ export class ProductMasterDetailComponent implements OnInit {
   public showMoreDisable: boolean = true;
   public tableItems: Array<any> = [];
   public tableItemsAuxiliary: Array<any> = [];
-  public service: ProductService;
+  public valuesForm: any = {};
 
-  constructor(pService: ProductService) { 
-    this.service = pService;
-  }
+  constructor(private _service: ProductService) { }
 
   ngOnInit(): void {
     this.getTableItems();
@@ -59,18 +57,24 @@ export class ProductMasterDetailComponent implements OnInit {
   }
 
   public onDeleteTableRecord(record: any): void {
-    this.toggleLoading();
-    this.service.delTableItem(record.code)
+    this.toggleLoading();    
+    this.updatePagination(0);
+    this._service.delTableItem(record.code)
       .subscribe({
-        next: (data) => this.getTableItems(),
-        error: (err) => console.error(err),
-        complete: () => this.toggleLoading()
+        next: (data) => {
+          this.toggleLoading();
+          this.getTableItems();
+        },
+        error: (err) => {
+          console.error(err);
+          this.toggleLoading();
+        }
       });
   }
 
   public getTableItems(): void {
     this.toggleLoading();
-    this.service.getTableItems(this.getPagination())
+    this._service.getTableItems(this.getPagination())
       .subscribe({
         next: (data) => {
           this.updateTableItems(data.payload);
@@ -81,9 +85,21 @@ export class ProductMasterDetailComponent implements OnInit {
       });
   }
 
-  private toggleLoading(): void {
+  public toggleLoading(): void {
     this.loadingHidden = !this.loadingHidden;
     this.loadingActived = !this.loadingActived;
+  }
+
+  public updatePagination(pNewValueSkip?: number): void {
+    if (pNewValueSkip === undefined || pNewValueSkip === null) {
+      this.qtdSkip = this.tableItems.length;
+      return;
+    }
+    this.qtdSkip = pNewValueSkip;
+  }
+
+  public selectTableRecord(pRecordSelected: any): void {
+    this.valuesForm = { ...pRecordSelected };
   }
 
   private setShowMore(pHasNextData: boolean): void {
@@ -97,12 +113,12 @@ export class ProductMasterDetailComponent implements OnInit {
     };
   }
 
-  private updatePagination(): void {
-    this.qtdSkip = this.tableItems.length;
-  }
-
   private updateTableItems(pData: Array<any>) {
-    this.tableItems = this.tableItems.concat(pData);
+    if (this.qtdSkip == 0) {
+      this.tableItems = pData;
+    } else {
+      this.tableItems = this.tableItems.concat(pData);
+    }
     this.tableItemsAuxiliary = this.tableItems;
   }
 }

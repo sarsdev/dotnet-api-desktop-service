@@ -7,19 +7,15 @@ import { first, Observable } from 'rxjs';
 })
 export class ProductService {
 
+  private url: string = "https://localhost:7053/ProductPackaging/product/packaging";
+  private options: any = { headers: new HttpHeaders("Access-Control-Allow-Origin: *") };
+
   constructor(private http: HttpClient) { }
 
-  public getTableItems(pPagination: any): Observable<any> {
-    return this.http.get<Observable<any>>(
-      `https://localhost:7053/ProductPackaging/product/packaging?qtdpage=${pPagination.qtdRecords}&skip=${pPagination.skip}`,
-      { observe: 'body', responseType: 'json', headers: new HttpHeaders("Access-Control-Allow-Origin: *") }
-    ).pipe(first());
-  }
-
-  public delTableItem(pCode: number): Observable<any> {
-    return this.http.delete<Observable<any>>(
-      `https://localhost:7053/ProductPackaging/product/packaging/${pCode}`,
-      { observe: 'body', responseType: 'json', headers: new HttpHeaders("Access-Control-Allow-Origin: *") }
-    ).pipe(first());
-  }
+  public getTableItems = (pPagination: any): Observable<any> => 
+    this.http.get<Observable<any>>(`${this.url}?qtdpage=${pPagination.qtdRecords}&skip=${pPagination.skip}`, this.options).pipe(first());
+  
+  public postTableItem = (pNewRecord: any): Observable<any> => this.http.post<Observable<any>>(this.url, pNewRecord, this.options).pipe(first());
+  public putTableItem = (pUpdatedRecord: any): Observable<any> => this.http.put<Observable<any>>(this.url, pUpdatedRecord, this.options).pipe(first());
+  public delTableItem = (pCode: number): Observable<any> => this.http.delete<Observable<any>>(`${this.url}/${pCode}`, this.options).pipe(first());
 }

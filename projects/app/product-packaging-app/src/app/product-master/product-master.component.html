@@ -1,0 +1,14 @@
+<div class="po-mb-1">
+    <po-container>
+        <po-dynamic-form
+            [p-fields]="fieldsForm"
+            [p-value]="valuesForm"
+        ></po-dynamic-form>
+        <po-button
+            class="po-md-3"
+            p-label="Save"
+            [p-disabled]="false"
+            (p-click)="onSave()"
+        ></po-button>
+    </po-container>
+</div>

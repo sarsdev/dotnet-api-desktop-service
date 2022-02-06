@@ -7,6 +7,13 @@
     p-title="Product packaging"
     [p-filter]="pageFilter"
 >
+    <app-product-master
+        [valuesForm]="valuesForm"
+        (onToggleLoading)="toggleLoading()"
+        (onUpdateTableItems)="getTableItems()"
+        (onUpdatePagination)="updatePagination($event)"
+    ></app-product-master>
+    
     <po-table
         [p-columns]="tableColumns"
         [p-items]="tableItems"
@@ -16,6 +23,10 @@
         [p-actions-right]="true"
         [p-striped]="true"
         p-container="shadow"
+        [p-sort]="true"
+        [p-selectable]="true"
+        [p-single-select]="true"
+        (p-selected)="selectTableRecord($event)"
     >
     </po-table>
 </po-page-list>

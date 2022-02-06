@@ -5,11 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductMasterDetailComponent } from './product-master-detail/product-master-detail.component';
 import { PoModule } from '@po-ui/ng-components';
+import { ProductMasterComponent } from './product-master/product-master.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProductMasterDetailComponent
+    ProductMasterDetailComponent,
+    ProductMasterComponent
   ],
   imports: [
     BrowserModule,
