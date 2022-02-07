@@ -1,0 +1,22 @@
+<po-loading-overlay
+    [p-screen-lock]="loadingActived"
+    [hidden]="loadingHidden"
+></po-loading-overlay>
+
+<po-page-list
+    p-title="Product packaging"
+    [p-filter]="pageFilter"
+>
+    <po-table
+        [p-columns]="tableColumns"
+        [p-items]="tableItems"
+        [p-show-more-disabled]="showMoreDisable"
+        (p-show-more)="onShowMore()"
+        [p-actions]="tableActions"
+        [p-actions-right]="true"
+        [p-striped]="true"
+        p-container="shadow"
+        [p-sort]="true"
+    >
+    </po-table>
+</po-page-list>
