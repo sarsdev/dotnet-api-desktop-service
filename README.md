@@ -7,10 +7,10 @@
     </a>
 </div>
 
-Study repository for learning DotNet Core fundamentals with First-API based applications.
+Study repository for learning DotNet Core, Angular and ElectronJs fundamentals with First-API based applications.
 
 ## What I want to do?
 
 In this repository I want to create a REST API allows CRUD for product packaging information (something simple).
 
-To use the API I will create a web application using angular, a desktop application using Electron.Net and a service using BackgroundService.
+To use the API I will create a web application using angular, a desktop application using ElectronJs and a service using BackgroundService.
